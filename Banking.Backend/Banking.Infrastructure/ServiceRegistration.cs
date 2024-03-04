@@ -13,7 +13,7 @@ public static class ServiceRegistration
         services.AddScoped<IBankRepository, BankRepository>();
         services.AddScoped<IStatuRepository, StatuRepository>();
         services.AddScoped<ITransactionDetailRepository, TransactionDetailRepository>();
-        services.AddScoped<ITransactionTypeRepository, ITransactionTypeRepository>();
+        services.AddScoped<ITransactionTypeRepository, TransactionTypeRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         #endregion
 
