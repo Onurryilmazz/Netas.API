@@ -10,4 +10,14 @@
       <ProjectReference Include="..\Banking.Domain\Banking.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Commands\" />
+      <Folder Include="Features\Queries\" />
+      <Folder Include="Models\RequestModels\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MediatR" Version="12.2.0" />
+    </ItemGroup>
+
 </Project>
