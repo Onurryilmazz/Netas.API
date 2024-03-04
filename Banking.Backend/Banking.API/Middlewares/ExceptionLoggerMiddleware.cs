@@ -1,4 +1,5 @@
 using System.Net;
+using Banking.Application.Features.Commands.Log.LogCommands;
 using Banking.Application.Models.ResponseModels;
 using MediatR;
 using Newtonsoft.Json;
@@ -41,7 +42,7 @@ public class ErrorLoggerMiddleware
 
         var description = responseEntity.StatusCode + " " + responseEntity.Message;
 
-        // mediator.Send(new LogCommand { Description = description });
+        mediator.Send(new LogCommand { Description = description });
 
         return context.Response.WriteAsync(JsonConvert.SerializeObject(responseEntity));
     }

@@ -1,5 +1,8 @@
+using Banking.Application.Features.Commands.Cancel.CancelCommands;
 using Banking.Application.Features.Commands.Pay.PayCommandHandlers;
 using Banking.Application.Features.Commands.Pay.PayCommands;
+using Banking.Application.Features.Commands.Refund.RefundCommands;
+using Banking.Application.Features.Queries.Report.ReportQueries;
 using Banking.Application.Models.RequestModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -29,5 +32,26 @@ public class BankingController : ControllerBase
     {
         var response = await _mediator.Send(new PayCreateCommand{  Request= request }); ;
         return Ok(response);
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Cancel()
+    {
+        // var response = await _mediator.Send(new CancelCreateCommand{  Request= request }); ;
+        return Ok();
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> Refund()
+    {
+        // var response = await _mediator.Send(new RefundCreateCommand{  Request= request }); ;
+        return Ok();
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Report()
+    {
+        // var response = await _mediator.Send(new ReportQuery{  Request= request }); ;
+        return Ok();
     }
 }
