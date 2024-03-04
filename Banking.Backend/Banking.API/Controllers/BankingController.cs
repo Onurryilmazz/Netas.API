@@ -48,10 +48,10 @@ public class BankingController : ControllerBase
         return Ok();
     }
     
-    [HttpGet]
-    public async Task<IActionResult> Report()
+    [HttpPost]
+    public async Task<IActionResult> Report(ReportFilterRequest request)
     {
-        // var response = await _mediator.Send(new ReportQuery{  Request= request }); ;
-        return Ok();
+        var response = await _mediator.Send(new ReportQuery{  Request= request }); ;
+        return Ok(response);
     }
 }
