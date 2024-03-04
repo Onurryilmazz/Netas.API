@@ -8,3 +8,9 @@ public class Statu
     public int Id { get; set; }
     public string StatuName { get; set; }
 }
+
+public enum StatusEnum
+{
+    Active = 1,
+    Failed = 2,
+}
