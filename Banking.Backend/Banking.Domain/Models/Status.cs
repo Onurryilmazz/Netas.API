@@ -11,6 +11,6 @@ public class Statu
 
 public enum StatusEnum
 {
-    Active = 1,
-    Failed = 2,
+    Success = 1,
+    Fail = 2,
 }

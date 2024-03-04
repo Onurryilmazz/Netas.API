@@ -1,3 +1,4 @@
+using Banking.Application;
 using Banking.Infrastructure;
 using Banking.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureServices();
+builder.Services.AddApplicationServices();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<BankingDataContext>(options =>
 {
@@ -36,6 +38,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Banking}/{action=Index}/{id?}");
 
 app.Run();
