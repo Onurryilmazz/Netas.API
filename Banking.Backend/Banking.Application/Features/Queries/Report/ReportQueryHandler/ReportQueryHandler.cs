@@ -48,11 +48,17 @@ public class ReportQueryHandler : IRequestHandler<ReportQuery, ServiceResult<Lis
         {
             transactions = transactions.Where(x => x.Transactions.Transaction.TranscationDate.Date <= request.Request.EndDateTime.Date);
         }
+
+        if (request.Request.OrderReferenceId != null)
+        {
+            transactions = transactions.Where(x => x.Transactions.Transaction.OrderReferenceId == request.Request.OrderReferenceId);
+        }
         
         var report = await transactions.Select(x => new ReportResponse
         {
             BankId = x.Transactions.Bank.ID,
-            Amount = x.Transactions.Transaction.TotalAmount
+            NetAmount = x.Transactions.Transaction.NetAmount,
+            TransactionId = x.Transactions.Transaction.ID,
         }).ToListAsync();
         
         result.Data = report;
