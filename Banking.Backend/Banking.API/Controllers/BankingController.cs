@@ -42,10 +42,10 @@ public class BankingController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> Refund()
+    public async Task<IActionResult> Refund(RefundRequest request)
     {
-        // var response = await _mediator.Send(new RefundCreateCommand{  Request= request }); 
-        return Ok();
+        var response = await _mediator.Send(new RefundCreateRequest{  Request= request }.GetRefundObject()); 
+        return Ok(response);
     }
     
     [HttpPost]

@@ -23,7 +23,7 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
     {
         var response = new ServiceResult();
         
-        var transaction = await _unitOfWork.TransactionRepository.GetTransactionByCancelRequest(request.Request);
+        var transaction = await _unitOfWork.TransactionRepository.GetMaxIdTransactionWithOrder(request.Request.OrderId);
         
         if (transaction == null)
         {
@@ -32,24 +32,28 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
             return response;
         }
 
-        var transactionDetail =
-           await  _unitOfWork.TransactionDetailRepository.GetSingleAsync(x => x.TransactionId == transaction.ID);
-        
-        if (transactionDetail == null)
+        var transactionDetail = new TransactionDetail
         {
-            response.IsSuccess = false;
-            response.Message = "Transaction detail not found";
-            return response;
-        }
+            Amount = transaction.NetAmount,
+            TransactionId = transaction.ID,
+            TransactionTypeId = (int)TransactionTypeEnum.Cancel,
+            StatusId = (int)StatusEnum.Success
+        };
         
-        transaction.TranscationDate = DateTime.Now;
-        transaction.NetAmount = 0;
+        var newTransaction = new Transaction
+        {
+            BankID = (int)BanksEnum.Akbank,
+            TranscationDate = DateTime.Now,
+            NetAmount = 0,
+            OrderReferenceId = transaction.OrderReferenceId,
+            TotalAmount = transaction.TotalAmount,
+            StatusID = (int)StatusEnum.Success
+        };
         
-        transactionDetail.TransactionTypeId = (int)TransactionTypeEnum.Cancel;
         
-        await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
-        await _unitOfWork.TransactionDetailRepository.UpdateAsync(transactionDetail);
-        _unitOfWork.Save();
+        await _unitOfWork.TransactionDetailRepository.AddAsync(transactionDetail);
+        await _unitOfWork.TransactionRepository.AddAsync(newTransaction);
+        await _unitOfWork.TransactionRepository.UpdateOrderNetAmount(request.Request.OrderId,newTransaction.NetAmount);
 
         response.Message = "Transaction canceled successfully";
         return response;
@@ -59,7 +63,7 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
     {
         var response = new ServiceResult();
         
-        var transaction = await _unitOfWork.TransactionRepository.GetTransactionByCancelRequest(request.Request);
+        var transaction = await _unitOfWork.TransactionRepository.GetMaxIdTransactionWithOrder(request.Request.OrderId);
         
         if (transaction == null)
         {
@@ -68,24 +72,28 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
             return response;
         }
 
-        var transactionDetail =
-            await  _unitOfWork.TransactionDetailRepository.GetSingleAsync(x => x.TransactionId == transaction.ID);
-        
-        if (transactionDetail == null)
+        var transactionDetail = new TransactionDetail
         {
-            response.IsSuccess = false;
-            response.Message = "Transaction detail not found";
-            return response;
-        }
+            Amount = transaction.NetAmount,
+            TransactionId = transaction.ID,
+            TransactionTypeId = (int)TransactionTypeEnum.Cancel,
+            StatusId = (int)StatusEnum.Success
+        };
         
-        transaction.TranscationDate = DateTime.Now;
-        transaction.NetAmount = 0;
+        var newTransaction = new Transaction
+        {
+            BankID = (int)BanksEnum.Garanti,
+            TranscationDate = DateTime.Now,
+            NetAmount = 0,
+            OrderReferenceId = transaction.OrderReferenceId,
+            TotalAmount = transaction.TotalAmount,
+            StatusID = (int)StatusEnum.Success
+        };
         
-        transactionDetail.TransactionTypeId = (int)TransactionTypeEnum.Cancel;
         
-        await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
-        await _unitOfWork.TransactionDetailRepository.UpdateAsync(transactionDetail);
-        _unitOfWork.Save();
+        await _unitOfWork.TransactionDetailRepository.AddAsync(transactionDetail);
+        await _unitOfWork.TransactionRepository.AddAsync(newTransaction);
+        await _unitOfWork.TransactionRepository.UpdateOrderNetAmount(request.Request.OrderId,newTransaction.NetAmount);
 
         response.Message = "Transaction canceled successfully";
         return response;
@@ -95,7 +103,7 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
     {
         var response = new ServiceResult();
         
-        var transaction = await _unitOfWork.TransactionRepository.GetTransactionByCancelRequest(request.Request);
+        var transaction = await _unitOfWork.TransactionRepository.GetMaxIdTransactionWithOrder(request.Request.OrderId);
         
         if (transaction == null)
         {
@@ -104,23 +112,28 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
             return response;
         }
 
-        var transactionDetail =
-            await  _unitOfWork.TransactionDetailRepository.GetSingleAsync(x => x.TransactionId == transaction.ID);
-        
-        if (transactionDetail == null)
+        var transactionDetail = new TransactionDetail
         {
-            response.IsSuccess = false;
-            response.Message = "Transaction detail not found";
-            return response;
-        }
+            Amount = transaction.NetAmount,
+            TransactionId = transaction.ID,
+            TransactionTypeId = (int)TransactionTypeEnum.Cancel,
+            StatusId = (int)StatusEnum.Success
+        };
         
-        transaction.TranscationDate = DateTime.Now;
-        transaction.NetAmount = 0;
+        var newTransaction = new Transaction
+        {
+            BankID = (int)BanksEnum.YapıKredi,
+            TranscationDate = DateTime.Now,
+            NetAmount = 0,
+            OrderReferenceId = transaction.OrderReferenceId,
+            TotalAmount = transaction.TotalAmount,
+            StatusID = (int)StatusEnum.Success
+        };
         
-        transactionDetail.TransactionTypeId = (int)TransactionTypeEnum.Cancel;
         
-        await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
-        await _unitOfWork.TransactionDetailRepository.UpdateAsync(transactionDetail);
+        await _unitOfWork.TransactionDetailRepository.AddAsync(transactionDetail);
+        await _unitOfWork.TransactionRepository.AddAsync(newTransaction);
+        await _unitOfWork.TransactionRepository.UpdateOrderNetAmount(request.Request.OrderId,newTransaction.NetAmount);
         _unitOfWork.Save();
 
         response.Message = "Transaction canceled successfully";

@@ -5,5 +5,6 @@ namespace Banking.Application.Interfaces.Repositories;
 
 public interface ITransactionRepository : IGenericRepository<Transaction,Transaction>
 {
-    Task<Transaction> GetTransactionByCancelRequest(CancelRequest request);
+    Task<Transaction> GetMaxIdTransactionWithOrder(int orderId);
+    Task<bool> UpdateOrderNetAmount(int orderId, int netAmount);
 }

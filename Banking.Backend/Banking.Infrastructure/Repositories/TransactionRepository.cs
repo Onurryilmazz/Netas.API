@@ -12,11 +12,16 @@ public class TransactionRepository : GenericRepository<Transaction, Transaction>
     {
     }
 
-    public async Task<Transaction> GetTransactionByCancelRequest(CancelRequest request)
+    public async Task<Transaction> GetMaxIdTransactionWithOrder(int orderId)
     {
-        var result = await _context.Transactions.FirstOrDefaultAsync(
-            x=> x.ID == request.TransactionId && x.TranscationDate.Date == DateTime.Now.Date);
-        
+        var result = await _context.Transactions.OrderByDescending(x => x.ID).FirstOrDefaultAsync(x => x.OrderReferenceId == orderId);
         return result;
+    }
+
+    public async Task<bool> UpdateOrderNetAmount(int orderId, int netAmount)
+    {
+        var result = await  _context.Transactions.Where(x => x.OrderReferenceId == orderId).ToListAsync();
+        result.ForEach(x => x.NetAmount = netAmount);
+        return true;
     }
 }

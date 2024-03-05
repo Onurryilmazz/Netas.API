@@ -25,7 +25,8 @@ public class PayCreateCommandHandler :IRequestHandler<PayGarantiCreateCommand, S
             TotalAmount = request.Request.Amount,
             NetAmount = request.Request.Amount ,
             StatusID = (int)StatusEnum.Success,
-            TranscationDate = DateTime.Now
+            TranscationDate = DateTime.Now,
+            OrderReferenceId = request.Request.OrderId
         };
         
         await _unitOfWork.TransactionRepository.AddAsync(transaction);
@@ -55,7 +56,8 @@ public class PayCreateCommandHandler :IRequestHandler<PayGarantiCreateCommand, S
             TotalAmount = request.Request.Amount,
             NetAmount = request.Request.Amount ,
             StatusID = (int)StatusEnum.Success,
-            TranscationDate = DateTime.Now
+            TranscationDate = DateTime.Now,
+            OrderReferenceId = request.Request.OrderId
         };
         
         await _unitOfWork.TransactionRepository.AddAsync(transaction);
@@ -85,7 +87,8 @@ public class PayCreateCommandHandler :IRequestHandler<PayGarantiCreateCommand, S
             TotalAmount = request.Request.Amount,
             NetAmount = request.Request.Amount ,
             StatusID = (int)StatusEnum.Success,
-            TranscationDate = DateTime.Now
+            TranscationDate = DateTime.Now,
+            OrderReferenceId = request.Request.OrderId
         };
         
         await _unitOfWork.TransactionRepository.AddAsync(transaction);

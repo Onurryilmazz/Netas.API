@@ -10,6 +10,6 @@ public class Transaction
     public int TotalAmount { get; set; }
     public int NetAmount { get; set; }
     public int StatusID { get; set; }
-    public string OrderReference { get; set; }
+    public int OrderReferenceId { get; set; }
     public DateTime TranscationDate { get; set; }
 }

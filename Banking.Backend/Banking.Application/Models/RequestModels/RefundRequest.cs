@@ -1,11 +1,8 @@
-using Banking.Application.Models.ResponseModels;
-using MediatR;
-
 namespace Banking.Application.Models.RequestModels;
 
-public class PayRequest 
+public class RefundRequest
 {
     public int BankId { get; set; }
-    public int Amount { get; set; }
     public int OrderId { get; set; }
+    public int RefundAmount { get; set; }
 }
