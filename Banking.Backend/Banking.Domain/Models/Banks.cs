@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Banking.Domain.Models;
 
-[Table("Banking.Bans")]
+[Table("Banking.Banks")]
 public class Bank
 {
     public int ID { get; set; }

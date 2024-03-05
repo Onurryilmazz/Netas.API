@@ -1,3 +1,4 @@
+using Banking.API.Middlewares;
 using Banking.Application;
 using Banking.Infrastructure;
 using Banking.Infrastructure.Context;
@@ -26,6 +27,9 @@ if (!app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ErrorLoggerMiddleware>();
+app.UseHsts();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
@@ -38,6 +42,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Banking}/{action=Index}/{id?}");
+    pattern: "{controller=Banking}/{action=HealtyCheck}/{id?}");
 
 app.Run();

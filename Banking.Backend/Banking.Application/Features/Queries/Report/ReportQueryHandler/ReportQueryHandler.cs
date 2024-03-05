@@ -2,6 +2,7 @@ using Banking.Application.Features.Queries.Report.ReportQueries;
 using Banking.Application.Interfaces.Repositories;
 using Banking.Application.Models.ResponseModels;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Banking.Application.Features.Queries.Report.ReportQueryHandler;
 
@@ -18,20 +19,41 @@ public class ReportQueryHandler : IRequestHandler<ReportQuery, ServiceResult<Lis
     {
         var result = new ServiceResult<List<ReportResponse>>();
 
-        var banks = _unitOfWork.BankRepository.GetAllAsync().Result;
-        var status = _unitOfWork.StatuRepository.GetAllAsync().Result;
-        
-        var bankId = banks.FirstOrDefault(x => x.Name == request.Request.BankName).ID;
-        var statusId = status.FirstOrDefault(x => x.StatuName == request.Request.StatuName).Id;
-        
-        
-        var transactions = _unitOfWork.TransactionRepository.GetWhereAsync(x=>x.BankID == bankId && x.StatusID == statusId).Result;
+        var transactions = _unitOfWork.TransactionRepository.GetAllAsync().Result
+            .Join(_unitOfWork.BankRepository.GetAllAsync().Result,
+                transaction => transaction.BankID,
+                bank => bank.ID,
+                ((transaction, bank) => new { Transaction = transaction, Bank = bank }))
+            .Join(_unitOfWork.StatuRepository.GetAllAsync().Result,
+                transaction => transaction.Transaction.StatusID,
+                statu => statu.Id,
+                ((transactions, status) => new { Transactions = transactions, Statu = status }));
 
-        var report = transactions.Select(x => new ReportResponse
+        if (request.Request.BankName != null)
         {
-            BankId = x.BankID,
-            Amount = x.NetAmount
-        }).ToList();
+            transactions = transactions.Where(x => x.Transactions.Bank.Name == request.Request.BankName);
+        }
+
+        if (request.Request.StatuName != null)
+        {
+            transactions = transactions.Where(x => x.Statu.StatuName == request.Request.StatuName);
+        }
+
+        if (request.Request.StartDateTime != null)
+        {
+            transactions = transactions.Where(x => x.Transactions.Transaction.TranscationDate.Date >= request.Request.StartDateTime.Date);
+        }
+        
+        if (request.Request.EndDateTime != null)
+        {
+            transactions = transactions.Where(x => x.Transactions.Transaction.TranscationDate.Date <= request.Request.EndDateTime.Date);
+        }
+        
+        var report = await transactions.Select(x => new ReportResponse
+        {
+            BankId = x.Transactions.Bank.ID,
+            Amount = x.Transactions.Transaction.TotalAmount
+        }).ToListAsync();
         
         result.Data = report;
 

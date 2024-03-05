@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Banking.Application.Features.Commands.Pay.PayCommands;
 
-public class PayCreateCommand : IRequest<ServiceResult>
+public class PayAkbankCreateCommand: IRequest<ServiceResult>
 {
     public PayRequest Request { get; set; }
 }

@@ -22,36 +22,36 @@ public class BankingController : ControllerBase
     
     
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult HealtyCheck()
     {
-        return Ok();
+        return Ok("I am alive");
     }
     
     [HttpPost]
     public async Task<IActionResult> Pay(PayRequest request)
     {
-        var response = await _mediator.Send(new PayCreateCommand{  Request= request }); ;
+        var response = await _mediator.Send(new PayCreateRequest{Request = request}.GetCreateObject()); 
         return Ok(response);
     }
     
     [HttpPost]
-    public async Task<IActionResult> Cancel()
+    public async Task<IActionResult> Cancel(CancelRequest request)
     {
-        // var response = await _mediator.Send(new CancelCreateCommand{  Request= request }); ;
-        return Ok();
+        var response = await _mediator.Send(new CancelCreateRequest{request = request}.GetCancelRequest()); 
+        return Ok(response);
     }
     
     [HttpPost]
     public async Task<IActionResult> Refund()
     {
-        // var response = await _mediator.Send(new RefundCreateCommand{  Request= request }); ;
+        // var response = await _mediator.Send(new RefundCreateCommand{  Request= request }); 
         return Ok();
     }
     
     [HttpPost]
     public async Task<IActionResult> Report(ReportFilterRequest request)
     {
-        var response = await _mediator.Send(new ReportQuery{  Request= request }); ;
+        var response = await _mediator.Send(new ReportQuery{  Request= request }); 
         return Ok(response);
     }
 }
