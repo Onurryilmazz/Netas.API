@@ -31,7 +31,12 @@ app.UseMiddleware<ErrorLoggerMiddleware>();
 app.UseHsts();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("../swagger/v1/swagger.json", "Test API V1");
+    c.RoutePrefix = string.Empty;
+});
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

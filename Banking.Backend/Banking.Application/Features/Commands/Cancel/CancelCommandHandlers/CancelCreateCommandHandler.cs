@@ -28,7 +28,7 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
         if (transaction == null)
         {
             response.IsSuccess = false;
-            response.Message = "Transaction not found";
+            response.Message = "Order not found";
             return response;
         }
 
@@ -54,7 +54,8 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
         await _unitOfWork.TransactionDetailRepository.AddAsync(transactionDetail);
         await _unitOfWork.TransactionRepository.AddAsync(newTransaction);
         await _unitOfWork.TransactionRepository.UpdateOrderNetAmount(request.Request.OrderId,newTransaction.NetAmount);
-
+        _unitOfWork.Save();
+        
         response.Message = "Transaction canceled successfully";
         return response;
     }
@@ -68,7 +69,7 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
         if (transaction == null)
         {
             response.IsSuccess = false;
-            response.Message = "Transaction not found";
+            response.Message = "Order not found";
             return response;
         }
 
@@ -94,7 +95,8 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
         await _unitOfWork.TransactionDetailRepository.AddAsync(transactionDetail);
         await _unitOfWork.TransactionRepository.AddAsync(newTransaction);
         await _unitOfWork.TransactionRepository.UpdateOrderNetAmount(request.Request.OrderId,newTransaction.NetAmount);
-
+        _unitOfWork.Save();
+        
         response.Message = "Transaction canceled successfully";
         return response;
     }
@@ -108,7 +110,7 @@ public class CancelCreateCommandHandler : IRequestHandler<CancelAkbankCreateComm
         if (transaction == null)
         {
             response.IsSuccess = false;
-            response.Message = "Transaction not found";
+            response.Message = "Order not found";
             return response;
         }
 
